@@ -46,6 +46,12 @@
       "description": "Combines all signals-related migrations into a single migration",
       "factory": "./bundles/signals#migrate",
       "schema": "./ng-generate/signals/schema.json"
+    },
+    "self-closing-tag-migration": {
+      "description": "Updates the components templates to use self-closing tags where possible",
+      "factory": "./bundles/self-closing-tag-migration#migrate",
+      "schema": "./ng-generate/self-closing-tag-migration/schema.json",
+      "aliases": ["self-closing-tag"]
     }
   }
 }
