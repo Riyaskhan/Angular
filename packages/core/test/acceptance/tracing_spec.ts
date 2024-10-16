@@ -7,11 +7,11 @@
  */
 
 import {
+  afterRender,
   Component,
+  ɵTracingAction as TracingAction,
   ɵTracingService as TracingService,
   ɵTracingSnapshot as TracingSnapshot,
-  ɵTracingAction as TracingAction,
-  afterRender,
 } from '@angular/core';
 import {fakeAsync, TestBed} from '@angular/core/testing';
 
@@ -68,8 +68,14 @@ describe('TracingService', () => {
       }
     }
 
-    TestBed.createComponent(App);
-    expect(mockTracingService.snapshot).toHaveBeenCalledTimes(2);
-    expect(actions).toEqual([TracingAction.CHANGE_DETECTION, TracingAction.AFTER_NEXT_RENDER]);
+    const fixture = TestBed.createComponent(App);
+    fixture.changeDetectorRef.markForCheck();
+    fixture.detectChanges();
+    expect(mockTracingService.snapshot).toHaveBeenCalledTimes(4);
+    expect(actions).toEqual([
+      TracingAction.CHANGE_DETECTION,
+      TracingAction.CHANGE_DETECTION,
+      TracingAction.AFTER_NEXT_RENDER,
+    ]);
   }));
 });

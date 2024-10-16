@@ -594,6 +594,9 @@
     "name": "activeConsumer"
   },
   {
+    "name": "addAfterRenderSequencesForView"
+  },
+  {
     "name": "addClass"
   },
   {
