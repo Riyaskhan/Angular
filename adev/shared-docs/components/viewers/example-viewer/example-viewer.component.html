@@ -41,7 +41,7 @@
         </i>
       </button>
       <ng-container *ngTemplateOutlet="openCodeInExternalProvider" />
-      @if (expandable()) {
+      @if (displayExpandButton()) {
         <button
           type="button"
           (click)="toggleExampleVisibility()"
