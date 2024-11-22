@@ -190,7 +190,7 @@ export class DirectiveExplorerComponent {
       (directive) => directive.name === directiveName,
     );
 
-    const selectedFrame = this._frameManager.selectedFrame;
+    const selectedFrame = this._frameManager.selectedFrame();
     if (!this._frameManager.frameHasUniqueUrl(selectedFrame)) {
       this._messageBus.emit('log', [
         {
@@ -209,7 +209,7 @@ export class DirectiveExplorerComponent {
   }
 
   handleSelectDomElement(node: IndexedNode): void {
-    const selectedFrame = this._frameManager.selectedFrame;
+    const selectedFrame = this._frameManager.selectedFrame();
     if (!this._frameManager.frameHasUniqueUrl(selectedFrame)) {
       this._messageBus.emit('log', [
         {
@@ -289,7 +289,7 @@ export class DirectiveExplorerComponent {
   }): void {
     const objectPath = constructPathOfKeysToPropertyValue(node.prop);
 
-    const selectedFrame = this._frameManager.selectedFrame;
+    const selectedFrame = this._frameManager.selectedFrame();
     if (!this._frameManager.frameHasUniqueUrl(selectedFrame)) {
       this._messageBus.emit('log', [
         {
