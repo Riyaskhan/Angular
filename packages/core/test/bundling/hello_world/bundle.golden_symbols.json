@@ -372,6 +372,9 @@
     "name": "activeConsumer"
   },
   {
+    "name": "addAfterRenderSequencesForView"
+  },
+  {
     "name": "addPropertyBinding"
   },
   {

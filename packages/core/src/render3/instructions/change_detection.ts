@@ -17,6 +17,7 @@ import {
 
 import {RuntimeError, RuntimeErrorCode} from '../../errors';
 import {assertDefined, assertEqual} from '../../util/assert';
+import {addAfterRenderSequencesForView} from '../after_render/view';
 import {executeCheckHooks, executeInitAndCheckHooks, incrementInitPhaseFlags} from '../hooks';
 import {CONTAINER_HEADER_OFFSET, LContainerFlags, MOVED_VIEWS} from '../interfaces/container';
 import {ComponentTemplate, RenderFlags} from '../interfaces/definition';
@@ -33,8 +34,8 @@ import {
   TView,
 } from '../interfaces/view';
 import {
-  getOrCreateTemporaryConsumer,
   getOrBorrowReactiveLViewConsumer,
+  getOrCreateTemporaryConsumer,
   maybeReturnReactiveLViewConsumer,
   ReactiveLViewConsumer,
   viewShouldHaveReactiveConsumer,
@@ -61,6 +62,7 @@ import {
   viewAttachedToChangeDetector,
 } from '../util/view_utils';
 
+import {runEffectsInView} from '../reactivity/view_effect_runner';
 import {
   executeTemplate,
   executeViewQueryFn,
@@ -68,7 +70,6 @@ import {
   processHostBindingOpCodes,
   refreshContentQueries,
 } from './shared';
-import {runEffectsInView} from '../reactivity/view_effect_runner';
 
 /**
  * The maximum number of times the change detection traversal will rerun before throwing an error.
@@ -352,6 +353,8 @@ export function refreshView<T>(
     // no changes cycle, the component would be not be dirty for the next update pass. This would
     // be different in production mode where the component dirty state is not reset.
     if (!isInCheckNoChangesPass) {
+      addAfterRenderSequencesForView(lView);
+
       lView[FLAGS] &= ~(LViewFlags.Dirty | LViewFlags.FirstLViewPass);
     }
   } catch (e) {
@@ -492,11 +495,16 @@ function detectChangesInView(lView: LView, mode: ChangeDetectionMode) {
   if (shouldRefreshView) {
     refreshView(tView, lView, tView.template, lView[CONTEXT]);
   } else if (flags & LViewFlags.HasChildViewsToRefresh) {
-    runEffectsInView(lView);
+    if (!isInCheckNoChangesPass) {
+      runEffectsInView(lView);
+    }
     detectChangesInEmbeddedViews(lView, ChangeDetectionMode.Targeted);
     const components = tView.components;
     if (components !== null) {
       detectChangesInChildComponents(lView, components, ChangeDetectionMode.Targeted);
+    }
+    if (!isInCheckNoChangesPass) {
+      addAfterRenderSequencesForView(lView);
     }
   }
 }

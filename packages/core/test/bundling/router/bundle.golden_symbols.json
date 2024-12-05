@@ -831,6 +831,9 @@
     "name": "activeConsumer"
   },
   {
+    "name": "addAfterRenderSequencesForView"
+  },
+  {
     "name": "addEmptyPathsToChildrenIfNeeded"
   },
   {

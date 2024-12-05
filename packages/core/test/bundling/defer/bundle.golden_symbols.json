@@ -615,6 +615,9 @@
     "name": "activeConsumer"
   },
   {
+    "name": "addAfterRenderSequencesForView"
+  },
+  {
     "name": "addDepsToRegistry"
   },
   {
@@ -2161,6 +2164,9 @@
   },
   {
     "name": "init_view2"
+  },
+  {
+    "name": "init_view3"
   },
   {
     "name": "init_view_container_ref"
