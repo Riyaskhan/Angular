@@ -104,6 +104,11 @@ export interface CreateEffectOptions {
    * @deprecated no longer required, signal writes are allowed by default.
    */
   allowSignalWrites?: boolean;
+
+  /**
+   * A debug name for the effect. Used in Angular DevTools to identify the effect.
+   */
+  debugName?: string;
 }
 
 /**
@@ -164,7 +169,7 @@ export function effect(
 
   if (ngDevMode && options?.allowSignalWrites !== undefined) {
     console.warn(
-      `The 'allowSignalWrites' flag is deprecated & longer required for effect() (writes are allowed by default)`,
+      `The 'allowSignalWrites' flag is deprecated and no longer impacts effect() (writes are always allowed)`,
     );
   }
 
@@ -192,6 +197,10 @@ export function effect(
   if (destroyRef !== null) {
     // If we need to register for cleanup, do that here.
     node.onDestroyFn = destroyRef.onDestroy(() => node.destroy());
+  }
+
+  if (ngDevMode) {
+    node.debugName = options?.debugName ?? '';
   }
 
   return new EffectRefImpl(node);
@@ -222,7 +231,7 @@ export interface RootEffectNode extends EffectNode {
  * Not public API, which guarantees `EffectScheduler` only ever comes from the application root
  * injector.
  */
-export const APP_EFFECT_SCHEDULER = new InjectionToken('', {
+export const APP_EFFECT_SCHEDULER = /* @__PURE__ */ new InjectionToken('', {
   providedIn: 'root',
   factory: () => inject(EffectScheduler),
 });
@@ -236,6 +245,7 @@ export const BASE_EFFECT_NODE: Omit<EffectNode, 'fn' | 'destroy' | 'injector' | 
     hasRun: false,
     cleanupFns: undefined,
     zone: null,
+    kind: 'effect',
     onDestroyFn: noop,
     run(this: EffectNode): void {
       this.dirty = false;

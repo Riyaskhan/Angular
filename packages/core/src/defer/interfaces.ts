@@ -12,13 +12,11 @@ import type {DependencyType} from '../render3/interfaces/definition';
 import type {TNode} from '../render3/interfaces/node';
 import type {LView} from '../render3/interfaces/view';
 
-// TODO(incremental-hydration): This interface should be renamed to better
-// reflect what it does. DeferBlock is to generic
 /**
  * Basic set of data structures used for identifying a defer block
  * and triggering defer blocks
  */
-export interface DeferBlock {
+export interface DehydratedDeferBlock {
   lView: LView;
   tNode: TNode;
   lContainer: LContainer;
@@ -140,12 +138,33 @@ export interface TDeferBlockDetails {
   /**
    * List of hydrate triggers for a given block
    */
-  hydrateTriggers: Set<DeferBlockTrigger | HydrateTriggerDetails> | null;
+  hydrateTriggers: Map<DeferBlockTrigger, HydrateTriggerDetails | null> | null;
 
   /**
    * List of prefetch triggers for a given block
    */
   prefetchTriggers: Set<DeferBlockTrigger> | null;
+
+  /**
+   * Defer block flags, which should be used for all
+   * instances of a given defer block (the flags that should be
+   * placed into the `TDeferDetails` at runtime).
+   */
+  flags: TDeferDetailsFlags;
+}
+
+/**
+ * Specifies defer block flags, which should be used for all
+ * instances of a given defer block (the flags that should be
+ * placed into the `TDeferDetails` at runtime).
+ */
+export const enum TDeferDetailsFlags {
+  Default = 0,
+
+  /**
+   * Whether or not the defer block has hydrate triggers.
+   */
+  HasHydrateTriggers = 1 << 0,
 }
 
 /**
@@ -181,14 +200,13 @@ export const enum DeferBlockTrigger {
   Never,
 }
 
-/**
- * Describes hydration specific details for triggers that are necessary
- * for invoking incremental hydration with the proper timing.
- */
-export interface HydrateTriggerDetails {
-  trigger: DeferBlockTrigger;
-  delay?: number;
+/** * Describes specified delay (in ms) in the `hydrate on timer()` trigger. */
+export interface HydrateTimerTriggerDetails {
+  delay: number;
 }
+
+/** * Describes all possible hydration trigger details specified in a template. */
+export type HydrateTriggerDetails = HydrateTimerTriggerDetails;
 
 /**
  * Describes the initial state of this defer block instance.
@@ -211,8 +229,8 @@ export const STATE_IS_FROZEN_UNTIL = 2;
 export const LOADING_AFTER_CLEANUP_FN = 3;
 export const TRIGGER_CLEANUP_FNS = 4;
 export const PREFETCH_TRIGGER_CLEANUP_FNS = 5;
-export const UNIQUE_SSR_ID = 6;
-export const SSR_STATE = 7;
+export const SSR_UNIQUE_ID = 6;
+export const SSR_BLOCK_STATE = 7;
 export const ON_COMPLETE_FNS = 8;
 export const HYDRATE_TRIGGER_CLEANUP_FNS = 9;
 
@@ -260,12 +278,12 @@ export interface LDeferBlockDetails extends Array<unknown> {
   /**
    * Unique id of this defer block assigned during SSR.
    */
-  [UNIQUE_SSR_ID]: string | null;
+  [SSR_UNIQUE_ID]: string | null;
 
   /**
    * Defer block state after SSR.
    */
-  [SSR_STATE]: number | null;
+  [SSR_BLOCK_STATE]: number | null;
 
   /**
    * A set of callbacks to be invoked once the main content is rendered.

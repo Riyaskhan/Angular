@@ -12,9 +12,6 @@
     "name": "AfterRenderManager"
   },
   {
-    "name": "AfterRenderPhase"
-  },
-  {
     "name": "AnonymousSubject"
   },
   {
@@ -126,6 +123,9 @@
     "name": "DEFER_BLOCK_STATE2"
   },
   {
+    "name": "DEHYDRATED_BLOCK_REGISTRY"
+  },
+  {
     "name": "DEHYDRATED_VIEWS"
   },
   {
@@ -145,9 +145,6 @@
   },
   {
     "name": "DeferBlockInternalState"
-  },
-  {
-    "name": "DeferBlockRegistry"
   },
   {
     "name": "DeferBlockState"
@@ -187,9 +184,6 @@
   },
   {
     "name": "ENVIRONMENT_INITIALIZER"
-  },
-  {
-    "name": "ERROR_ORIGINAL_ERROR"
   },
   {
     "name": "EVENT_MANAGER_PLUGINS"
@@ -369,9 +363,6 @@
     "name": "NgModuleRef"
   },
   {
-    "name": "NgOnChangesFeatureImpl"
-  },
-  {
     "name": "NgZone"
   },
   {
@@ -462,7 +453,10 @@
     "name": "SOURCE"
   },
   {
-    "name": "SSR_STATE"
+    "name": "SSR_BLOCK_STATE"
+  },
+  {
+    "name": "SSR_UNIQUE_ID"
   },
   {
     "name": "SVG_NAMESPACE"
@@ -513,7 +507,10 @@
     "name": "TYPE"
   },
   {
-    "name": "UNIQUE_SSR_ID"
+    "name": "TracingAction"
+  },
+  {
+    "name": "TracingService"
   },
   {
     "name": "USE_VALUE"
@@ -543,12 +540,6 @@
     "name": "ZoneStablePendingTask"
   },
   {
-    "name": "_AfterRenderImpl"
-  },
-  {
-    "name": "_ComponentFactoryResolver"
-  },
-  {
     "name": "_DOM"
   },
   {
@@ -568,6 +559,9 @@
   },
   {
     "name": "__getOwnPropNames"
+  },
+  {
+    "name": "__publicField"
   },
   {
     "name": "_applyRootElementTransformImpl"
@@ -996,9 +990,6 @@
     "name": "getOrCreateTNode"
   },
   {
-    "name": "getOriginalError"
-  },
-  {
     "name": "getOwnDefinition"
   },
   {
@@ -1170,6 +1161,9 @@
     "name": "init_async_stack_tagging"
   },
   {
+    "name": "init_attach_source_locations"
+  },
+  {
     "name": "init_attribute"
   },
   {
@@ -1186,9 +1180,6 @@
   },
   {
     "name": "init_bindings"
-  },
-  {
-    "name": "init_blocks"
   },
   {
     "name": "init_bootstrap"
@@ -1347,6 +1338,9 @@
     "name": "init_decorators"
   },
   {
+    "name": "init_def_getters"
+  },
+  {
     "name": "init_default_iterable_differ"
   },
   {
@@ -1465,9 +1459,6 @@
   },
   {
     "name": "init_errors3"
-  },
-  {
-    "name": "init_errors4"
   },
   {
     "name": "init_errors_di"
@@ -1612,9 +1603,6 @@
   },
   {
     "name": "init_image_performance_warning"
-  },
-  {
-    "name": "init_incremental"
   },
   {
     "name": "init_inert_body"
@@ -1830,6 +1818,9 @@
     "name": "init_ng_reflect"
   },
   {
+    "name": "init_ng_server_mode"
+  },
+  {
     "name": "init_ng_zone"
   },
   {
@@ -1906,6 +1897,9 @@
   },
   {
     "name": "init_platform_ref"
+  },
+  {
+    "name": "init_platform_tokens"
   },
   {
     "name": "init_profiler"
@@ -1989,6 +1983,9 @@
     "name": "init_render3"
   },
   {
+    "name": "init_rendering"
+  },
+  {
     "name": "init_reportUnhandledError"
   },
   {
@@ -2046,10 +2043,7 @@
     "name": "init_skip_hydration"
   },
   {
-    "name": "init_standalone_default_value"
-  },
-  {
-    "name": "init_standalone_feature"
+    "name": "init_standalone_service"
   },
   {
     "name": "init_state"
@@ -2115,7 +2109,13 @@
     "name": "init_tokens3"
   },
   {
+    "name": "init_tracing"
+  },
+  {
     "name": "init_transfer_state"
+  },
+  {
+    "name": "init_triggering"
   },
   {
     "name": "init_trusted_types"
@@ -2292,9 +2292,6 @@
     "name": "isFunction"
   },
   {
-    "name": "isIncrementalHydrationEnabled"
-  },
-  {
     "name": "isInlineTemplate"
   },
   {
@@ -2308,9 +2305,6 @@
   },
   {
     "name": "isNodeMatchingSelectorList"
-  },
-  {
-    "name": "isPlatformBrowser"
   },
   {
     "name": "isPlatformServer"
@@ -2508,6 +2502,9 @@
     "name": "runEffectsInView"
   },
   {
+    "name": "runInInjectionContext"
+  },
+  {
     "name": "saveNameToExportMap"
   },
   {
@@ -2574,6 +2571,9 @@
     "name": "shimStylesContent"
   },
   {
+    "name": "shouldAttachRegularTrigger"
+  },
+  {
     "name": "shouldSearchParent"
   },
   {
@@ -2596,6 +2596,9 @@
   },
   {
     "name": "trackMovedView"
+  },
+  {
+    "name": "triggerDeferBlock"
   },
   {
     "name": "uniqueIdCounter"
@@ -2629,12 +2632,6 @@
   },
   {
     "name": "writeToDirectiveInput"
-  },
-  {
-    "name": "ɵɵNgOnChangesFeature"
-  },
-  {
-    "name": "ɵɵStandaloneFeature"
   },
   {
     "name": "ɵɵdefer"

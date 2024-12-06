@@ -13,7 +13,6 @@ import {
   Injectable,
   Provider,
   Type,
-  ɵwithIncrementalHydration,
 } from '@angular/core';
 import {Console} from '@angular/core/src/console';
 import {
@@ -135,6 +134,18 @@ export function verifyAllChildNodesClaimedForHydration(
   }
 }
 
+export function verifyNodeWasHydrated(el: HTMLElement) {
+  if (readHydrationInfo(el)?.status !== HydrationStatus.Hydrated) {
+    fail('Hydration error: the node is *not* hydrated: ' + el.outerHTML);
+  }
+}
+
+export function verifyNodeWasNotHydrated(el: HTMLElement) {
+  if (readHydrationInfo(el)?.status === HydrationStatus.Hydrated) {
+    fail('Hydration error: the node is hydrated and should not be: ' + el.outerHTML);
+  }
+}
+
 /**
  * Walks over DOM nodes starting from a given node and make sure
  * those nodes were not annotated as "claimed" by hydration.
@@ -235,21 +246,19 @@ export function withDebugConsole() {
  */
 export async function ssr(
   component: Type<unknown>,
-  options?: {
+  options: {
     doc?: string;
     envProviders?: Provider[];
-    hydrationFeatures?: HydrationFeature<HydrationFeatureKind>[];
+    hydrationFeatures?: () => HydrationFeature<HydrationFeatureKind>[];
     enableHydration?: boolean;
-  },
+  } = {},
 ): Promise<string> {
   const defaultHtml = DEFAULT_DOCUMENT;
-  const enableHydration = options?.enableHydration ?? true;
-  const envProviders = options?.envProviders ?? [];
-  const hydrationFeatures = options?.hydrationFeatures ?? [];
+  const {enableHydration = true, envProviders = [], hydrationFeatures = () => []} = options;
   const providers = [
     ...envProviders,
     provideServerRendering(),
-    enableHydration ? provideClientHydration(...hydrationFeatures) : [],
+    enableHydration ? provideClientHydration(...hydrationFeatures()) : [],
   ];
 
   const bootstrap = () => bootstrapApplication(component, {providers});
@@ -276,25 +285,4 @@ export function verifyEmptyConsole(appRef: ApplicationRef) {
 export function clearConsole(appRef: ApplicationRef) {
   const console = appRef.injector.get(Console) as DebugConsole;
   console.logs = [];
-}
-
-// The following 2 functions are temporary for landing incremental hydration code
-// before the feature commit that adds the public api. These will be removed
-// in favor of the real API.
-
-// TODO(incremental-hydration): remove this once the public api lands
-/**
- * Helper function to create an object that represents a Hydration feature.
- */
-function hydrationFeature<FeatureKind extends HydrationFeatureKind>(
-  ɵkind: FeatureKind,
-  ɵproviders: Provider[] = [],
-  ɵoptions: unknown = {},
-): HydrationFeature<FeatureKind> {
-  return {ɵkind, ɵproviders};
-}
-
-// TODO(incremental-hydration): remove this once the public api lands
-export function withIncrementalHydration(): HydrationFeature<HydrationFeatureKind.IncrementalHydration> {
-  return hydrationFeature(HydrationFeatureKind.IncrementalHydration, ɵwithIncrementalHydration());
 }
