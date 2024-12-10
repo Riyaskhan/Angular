@@ -126,7 +126,7 @@ describe('ExampleViewer', () => {
 
     const hiddenLine = fixture.debugElement.query(By.css('div[class="line hidden"]'));
     expect(hiddenLine).toBeTruthy();
-  }))
+  }));
 
   it('should have no more line with hidden line class when expand button is clicked', waitForAsync(async () => {
     const expectedCodeSnippetContent =

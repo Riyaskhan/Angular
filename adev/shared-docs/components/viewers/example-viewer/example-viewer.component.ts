@@ -74,7 +74,7 @@ export class ExampleViewer {
   CodeExampleViewMode = CodeExampleViewMode;
   exampleComponent?: Type<unknown>;
 
-  displayExpandButton = signal<boolean>(false);
+  expandable = signal<boolean>(false);
   expanded = signal<boolean>(false);
   exampleMetadata = signal<ExampleMetadata | null>(null);
   snippetCode = signal<Snippet | undefined>(undefined);
@@ -89,9 +89,6 @@ export class ExampleViewer {
     this.exampleMetadata()?.files.length === 1
       ? CodeExampleViewMode.SNIPPET
       : CodeExampleViewMode.MULTI_FILE,
-  );
-  expandable = computed(() =>
-    this.exampleMetadata()?.files.some((file) => !!file.visibleLinesRange),
   );
 
   async renderExample(): Promise<void> {
@@ -120,7 +117,7 @@ export class ExampleViewer {
     const lines = this.getHiddenCodeLines();
     const lineNumbers = this.getHiddenCodeLineNumbers();
 
-    this.displayExpandButton.set(lines.length > 0 || lineNumbers.length > 0);
+    this.expandable.set(lines.length > 0 || lineNumbers.length > 0);
   }
 
   toggleExampleVisibility(): void {
