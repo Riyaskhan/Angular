@@ -409,7 +409,7 @@ export interface ComponentDef<T> extends DirectiveDef<T> {
     | null;
 
   /**
-   * A function added by the {@link ɵɵExternalStylesFeature} and used by the framework to create
+   * A function added by the [ɵɵExternalStylesFeature](/api/core/ɵɵExternalStylesFeature) and used by the framework to create
    * the list of external runtime style URLs.
    */
   getExternalStyles: ((encapsulationId?: string) => string[]) | null;
