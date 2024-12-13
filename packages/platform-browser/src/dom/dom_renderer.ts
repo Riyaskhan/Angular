@@ -395,9 +395,8 @@ function checkNoSyntheticProp(name: string, nameKind: string) {
     throw new RuntimeError(
       RuntimeErrorCode.UNEXPECTED_SYNTHETIC_PROPERTY,
       `Unexpected synthetic ${nameKind} ${name} found. Please make sure that:
-  - Either \`BrowserAnimationsModule\` or \`NoopAnimationsModule\` are imported in your application.
-  - If you use standalone API, make sure \` provideAnimationsAsync() \` or \` provideAnimations() \` was added to application config in app.config.ts
-  - There is corresponding configuration for the animation named \`${name}\` defined in the \`animations\` field of the \`@Component\` decorator (see https://angular.io/api/core/Component#animations).`,
+  - Make sure \` provideAnimationsAsync()\`, \` provideAnimations()\` or \`provideNoopAnimations()\` call was added to a list of providers used to bootstrap an application.
+  - There is a corresponding animation configuration named \`${name}\` defined in the \`animations\` field of the \`@Component\` decorator (see https://angular.dev/api/core/Component#animations).`,
     );
   }
 }
