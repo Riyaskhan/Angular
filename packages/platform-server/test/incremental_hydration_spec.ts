@@ -206,7 +206,7 @@ describe('platform-server partial hydration integration', () => {
       expect(ssrContents).toContain('<p jsaction="click:;keydown:;" ngb="d1');
       // There is an extra annotation in the TransferState data.
       expect(ssrContents).toContain(
-        '"__nghDeferData__":{"d0":{"p":null,"r":1,"s":2,"t":[]},"d1":{"p":"d0","r":1,"s":2,"t":[]}}',
+        '"__nghDeferData__":{"d0":{"r":1,"s":2,"t":[]},"d1":{"r":1,"s":2,"t":[],"p":"d0"}}',
       );
       // Outer defer block is rendered.
       expect(ssrContents).toContain('Main defer block rendered');
@@ -319,7 +319,7 @@ describe('platform-server partial hydration integration', () => {
       expect(ssrContents).toContain('<p jsaction="click:;keydown:;" ngb="d1');
       // There is an extra annotation in the TransferState data.
       expect(ssrContents).toContain(
-        '"__nghDeferData__":{"d0":{"p":null,"r":1,"s":2,"t":[]},"d1":{"p":"d0","r":1,"s":2,"t":[]}}',
+        '"__nghDeferData__":{"d0":{"r":1,"s":2,"t":[]},"d1":{"r":1,"s":2,"t":[],"p":"d0"}}',
       );
       // Outer defer block is rendered.
       expect(ssrContents).toContain('Main defer block rendered');
@@ -429,7 +429,7 @@ describe('platform-server partial hydration integration', () => {
       // expect(ssrContents).toContain('<p jsaction="click:;" ngb="d1');
       // There is an extra annotation in the TransferState data.
       expect(ssrContents).toContain(
-        '"__nghDeferData__":{"d0":{"p":null,"r":1,"s":2,"t":[]},"d1":{"p":"d0","r":1,"s":0,"t":null}}',
+        '"__nghDeferData__":{"d0":{"r":1,"s":2,"t":[]},"d1":{"r":1,"s":0,"t":null,"p":"d0"}}',
       );
       // Outer defer block is rendered.
       expect(ssrContents).toContain('Main defer block rendered');

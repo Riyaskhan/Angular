@@ -405,11 +405,15 @@ function serializeLContainer(
 
           // Add defer block into info context.deferBlocks
           const deferBlockInfo: SerializedDeferBlock = {
-            [DEFER_PARENT_BLOCK_ID]: parentDeferBlockId,
             [NUM_ROOT_NODES]: rootNodes.length,
             [DEFER_BLOCK_STATE]: lDetails[CURRENT_DEFER_BLOCK_STATE],
             [DEFER_HYDRATE_TRIGGERS]: serializeHydrateTriggers(tDetails.hydrateTriggers),
           };
+
+          if (parentDeferBlockId !== null) {
+            // Serialize parent id only when it's present.
+            deferBlockInfo[DEFER_PARENT_BLOCK_ID] = parentDeferBlockId;
+          }
 
           context.deferBlocks.set(deferBlockId, deferBlockInfo);
 
